@@ -1,0 +1,85 @@
+{
+    "namespace": "Push",
+
+    "bridge_functions": [
+        {
+            "name": "Push.Status",
+            "android": "com.blutrixx.plugins.push.PushFunctions.Status",
+            "android_params": ["context"],
+            "description": "{ permission: granted|denied|ask, token } : whether notifications may be shown, and the phone's Firebase token (empty until Firebase has given one)"
+        },
+        {
+            "name": "Push.RequestPermission",
+            "android": "com.blutrixx.plugins.push.PushFunctions.RequestPermission",
+            "android_params": ["activity"],
+            "description": "Asks Android's notification permission (Android 13 and later). Answers at once { granted, asked }; the answer to the question is read again with Status."
+        },
+        {
+            "name": "Push.GetToken",
+            "android": "com.blutrixx.plugins.push.PushFunctions.GetToken",
+            "android_params": ["context"],
+            "description": "The phone's Firebase token { token }, waiting up to 10 seconds for Firebase to give one"
+        },
+        {
+            "name": "Push.TakeLaunchLink",
+            "android": "com.blutrixx.plugins.push.PushFunctions.TakeLaunchLink",
+            "android_params": ["context"],
+            "description": "The page of the notification the person tapped { link }, once: empty when none was tapped"
+        },
+        {
+            "name": "Push.SetChannel",
+            "android": "com.blutrixx.plugins.push.PushFunctions.SetChannel",
+            "android_params": ["context"],
+            "description": "Names the notification channel Android shows in the app's settings: { name, description }. Optional; call it once at start."
+        }
+    ],
+
+    "android": {
+        "min_version": 26,
+        "permissions": [
+            "android.permission.POST_NOTIFICATIONS"
+        ],
+        "activities": [
+            {
+                "name": "com.blutrixx.plugins.push.OpenFromNotificationActivity",
+                "exported": false,
+                "theme": "@android:style/Theme.NoDisplay"
+            }
+        ],
+        "services": [
+            {
+                "name": "com.blutrixx.plugins.push.PushMessagingService",
+                "exported": false,
+                "intent_filters": [
+                    {
+                        "action": "com.google.firebase.MESSAGING_EVENT"
+                    }
+                ]
+            }
+        ],
+        "dependencies": {
+            "implementation": [
+                "platform(com.google.firebase:firebase-bom:33.7.0)",
+                "com.google.firebase:firebase-messaging"
+            ]
+        },
+        "gradle_plugins": [
+            {
+                "id": "com.google.gms.google-services",
+                "version": "4.4.2",
+                "apply_to": "app"
+            }
+        ],
+        "project_files": [
+            {
+                "sources": ["google-services.json"],
+                "destination": "app/google-services.json",
+                "required": true
+            }
+        ]
+    },
+
+    "ios": {
+        "min_version": "18.0"
+    }
+}

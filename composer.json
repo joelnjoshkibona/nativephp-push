@@ -1,0 +1,26 @@
+{
+    "name": "blutrixx/nativephp-push",
+    "description": "NativePHP Mobile plugin for Android push notifications: the phone's Firebase token, the notification permission, the notification itself and the page it opens",
+    "type": "nativephp-plugin",
+    "license": "MIT",
+    "keywords": ["nativephp", "nativephp-plugin", "android", "push", "fcm"],
+    "autoload": {
+        "psr-4": {
+            "Blutrixx\\Push\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Blutrixx\\Push\\PushServiceProvider"
+            ]
+        },
+        "nativephp": {
+            "manifest": "nativephp.json"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "nativephp/mobile": "^4.0"
+    }
+}
